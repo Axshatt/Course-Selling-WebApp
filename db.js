@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+require("dotenv").config();
 
 const Schema = mongoose.Schema;
 const ObjectId = mongoose.Types.ObjectId;
@@ -6,7 +7,7 @@ const ObjectId = mongoose.Types.ObjectId;
 mongoose.connect(process.env.DATABASE_URL)
 
 const user= new Schema({
-    _id:ObjectId,
+    
     email:{type:String, unique:true},
     password:String,
     firstName:String,
@@ -14,7 +15,7 @@ const user= new Schema({
 })
 
 const admin= new Schema({
-    _id:ObjectId,
+   
     email:{type:String, unique:true},
     password:String,
     firstName:String,
