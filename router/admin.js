@@ -102,7 +102,9 @@ adminRoute.put("/course",async function(req,res){
 adminRoute.get("/course/bulk" ,async function (req,res){
     const adminId = req.userId;
 
-    const courses = await courseModal.find({})
+    const courses = await courseModal.find({
+        creatorId :adminId
+    })
 
     res.send({
         courses

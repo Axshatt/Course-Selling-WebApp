@@ -1,8 +1,8 @@
 const {Router } = require("express");
-const { userModal } = require("../db");
+const { userModal, purchaseModal, courseModal } = require("../db");
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken") 
-
+const {userAuth} = require("../middleware/user")
 
 const userRoute = Router();
 
@@ -55,6 +55,26 @@ userRoute.post("/signin",async function(req,res){
         }
     
 })
+
+
+userRoute.get("/purchases",userAuth , async function (req,res){
+    const userId = req.userId;
+
+    const purchases = await purchaseModal.find({
+        userId
+    })
+    const purchsesCourseIds = purchases.map(purchase=> purchase.courseId)
+
+    const coursesData = await courseModal.find({
+        _id:{$in:purchsesCourseIds}
+    })
+
+    res.json({
+        purchases,
+        coursesData
+    })
+})
+
 
 module.exports ={
     userRoute:userRoute
